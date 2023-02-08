@@ -1,67 +1,28 @@
+import { stat } from "original-fs";
 import { FC, useEffect, useRef, useState } from "react";
 import { MdAdd, MdDelete, MdEdit, MdFolder, MdFolderOpen, MdMenu, MdStorage } from "react-icons/md"
+import Navigation from "../component/Navigation";
+import Sidebar from "../component/Sidebar";
+import { setServer } from "../store/authorization-servers-slice";
+import { RootState, useAppDispatch, useAppSelector } from "../store/hooks";
+import EditServerView from "./EditServerView";
 
 const MainView: FC = () => {
 
-    const [state, setState] = useState<boolean>(true)
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(true)
+
+    const {selectedResource, selectedResourceType} = useAppSelector((state: RootState) => state.navigation)
 
     return(
         <>
-            <nav className="navigation">
-                <button onClick={() => setState(!state)}>
-                    <MdMenu />
-                </button>
+            <Navigation sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-                <button className="nav-end">
-                    <MdFolderOpen />
-                </button>
-            </nav>
-            <div className={`main ${state ? "" : "sidebar-hidden"}`}>
-                <aside>
-                    <section>
-                        <div>
-                            Server
-                        </div>
-                        <button className="btn-add">
-                            <MdAdd />
-                        </button>
-                    </section>
-
-                    <ul>
-                        <li>
-                            <button>
-                                <MdStorage />
-                                Keycloak
-                            </button>
-                            <button className="btn-add">
-                                <MdAdd />
-                            </button>
-                            <button>
-                                <MdEdit />
-                            </button>
-                            <button className="btn-delete">
-                                <MdDelete />
-                            </button>
-                        </li>
-                        <li>
-                            <button>
-                                <MdStorage />
-                                GitHub
-                            </button>
-                            <button className="btn-add">
-                                <MdAdd />
-                            </button>
-                            <button>
-                                <MdEdit />
-                            </button>
-                            <button className="btn-delete">
-                                <MdDelete />
-                            </button>
-                        </li>
-                    </ul>
-                </aside>
+            <div className={`main ${sidebarOpen ? "" : "sidebar-hidden"}`}>
+                <Sidebar />
                 <main>
-                    Content
+                    {
+                        selectedResourceType === "server" && <EditServerView serverId={selectedResource} />
+                    }
                 </main>
             </div>
         </>
