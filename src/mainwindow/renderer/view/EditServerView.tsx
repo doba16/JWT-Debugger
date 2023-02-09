@@ -81,7 +81,7 @@ const EditServerView: FC<EditServerViewProps> = ({serverId}) => {
                     <input type="text" {...register("tokenUrl")} />
                 </fieldset>
 
-                <input type="submit" value="Übernehmen"/>
+                <input type="submit" value="Übernehmen" className="btn-primary"/>
             </form>
         </>
     )

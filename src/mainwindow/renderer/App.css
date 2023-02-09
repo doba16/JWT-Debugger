@@ -43,7 +43,7 @@ html, body {
 }
 
 html {
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 *, *::before, *::after {
@@ -66,6 +66,7 @@ html {
     display: flex;
     flex-direction: row;
     height: 100%;
+    isolation: isolate;
 }
 
 .btn-add {
@@ -254,4 +255,80 @@ h1 {
 h1 > svg {
     vertical-align: middle;
     margin-right: .5em;
+}
+
+.btn-primary {
+    background-color: var(--clr-accent);
+    padding: .5em 1em;
+    border-radius: .3em;
+}
+
+.dialog-container {
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    transition: transform .3s, opacity .3s, visibility .3s;
+}
+
+.dialog-container.closed {
+    visibility: hidden;
+}
+
+.dialog-container.closed .dialog {
+    transform: translateY(-2em);
+    opacity: 0;
+}
+
+.dialog-container > * {
+    grid-area: 1 / 2 / 1 / 2;
+}
+
+.dialog {
+    width: min(50em, calc(100vw - 5em));
+    transform: translateY(0);
+    opacity: 1;
+    transition: inherit;
+}
+
+.dialog-container .background {
+    background-color: #0007;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 1;
+
+    transition: inherit;
+}
+
+.dialog-container.closed .background {
+    opacity: 0;
+}
+
+.dialog section {
+    background-color: var(--clr-bg-2);
+
+    --border-radius: 1em;
+
+    padding: 1em 1.5em;
+}
+
+.dialog section:first-child {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    background-color: var(--clr-bg-3);
+}
+
+.dialog section:last-child {
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1em;
+}
+
+.dialog h2 {
+    font-size: 1.5em;
+    color: var(--clr-accent);
 }
